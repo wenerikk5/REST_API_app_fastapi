@@ -1,0 +1,46 @@
+version: "1.0"
+
+services:
+    backend:
+        build: ./
+        restart: always
+        command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+        volumes:
+            - ./:/app
+        ports:
+            - 8000:8000
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER:-postgres}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+            POSTGRES_DB: ${POSTGRES_DB:-postgres}
+            POSTGRES_SERVER: ${POSTGRES_SERVER:-db}
+        env_file:
+            - .env.template
+        depends_on:
+            - db
+            # db:
+            #     condition: service_healthy
+
+    db:
+        image: postgres:16
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        ports:
+            - 5555:5432
+        expose:
+            - 5555
+        environment:
+            POSTGRES_USER: ${POSTGRES_USER:-postgres}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+            POSTGRES_DB: ${POSTGRES_DB:-postgres}
+            POSTGRES_SERVER: ${POSTGRES_SERVER:-db}
+        env_file:
+            - .env.template
+        # healthcheck:
+        #     test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+        #     interval: 1s
+        #     timeout: 1s
+        #     retries: 10
+
+volumes:
+    postgres_data:
