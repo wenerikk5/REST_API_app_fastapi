@@ -131,7 +131,6 @@ async def search_organizations(
         )
 
     elif all([search_params.lat, search_params.lng, search_params.radius]):
-        print(f"===== SEARCH BY RADIUS {search_params=}")
         lat = search_params.lat
         lng = search_params.lng
         radius = search_params.radius
@@ -140,8 +139,6 @@ async def search_organizations(
         buildings_in_rectangle = await get_buildings_in_rectangle(
             session, lat_min, lat_max, lng_min, lng_max
         )
-
-        print(f"==== {(lat_min, lat_max, lng_min, lng_max)=}")
 
         building_ids = [
             b.id
