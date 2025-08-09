@@ -4,7 +4,7 @@ from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-LOG_DEFAULT_FORMAT = "%(levelname)-3s | [%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d - %(message)s"
+LOG_DEFAULT_FORMAT = "[%(asctime)s.%(msecs)03d] %(module)s:%(lineno)d %(levelname)s - %(message)s"
 
 
 class LoggingConfig(BaseModel):
@@ -13,7 +13,7 @@ class LoggingConfig(BaseModel):
         "info",
         "warning",
         "error",
-        "crititcal",
+        "critical",
     ] = "info"
     log_format: str = LOG_DEFAULT_FORMAT
     date_format: str = "%Y-%m-%d %H:%M:%S"
