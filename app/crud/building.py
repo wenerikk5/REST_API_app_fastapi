@@ -1,11 +1,10 @@
-import math
 from typing import Sequence
 
-from sqlalchemy import select, func, and_, or_
+from sqlalchemy import select, and_
 from sqlalchemy.orm import joinedload, selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app import models, schemas
+from app import models
 
 
 async def get_building(
@@ -25,7 +24,7 @@ async def get_building(
 
 async def list_buildings(
     session: AsyncSession,
-) -> list[models.Building]:
+) -> Sequence[models.Building]:
     stmt = select(models.Building).options(
         selectinload(models.Building.organizations),
     )
@@ -36,7 +35,7 @@ async def list_buildings(
 async def get_organizations_in_building(
     session: AsyncSession,
     building_id: int,
-) -> list[models.Organization]:
+) -> Sequence[models.Organization]:
     stmt = (
         select(models.Organization)
         .where(models.Organization.building_id == building_id)
@@ -55,7 +54,7 @@ async def get_buildings_in_rectangle(
     lat_max: float,
     lng_min: float,
     lng_max: float,
-) -> list[models.Building]:
+) -> Sequence[models.Building]:
     stmt = (
         select(models.Building)
         .where(

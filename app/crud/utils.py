@@ -43,7 +43,7 @@ async def get_child_activities(
     if activity.parent_id:
         return children_ids
 
-    # current level is 1, grandchildren might exists
+    # the current level is 1, grandchildren might exist
     return await get_grandchildren_activities(session, children_ids)
 
 

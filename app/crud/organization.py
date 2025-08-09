@@ -1,7 +1,6 @@
-import math
 from typing import Sequence
 
-from sqlalchemy import select, func, and_, or_
+from sqlalchemy import select, and_
 from sqlalchemy.orm import joinedload, selectinload
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -32,7 +31,7 @@ async def get_organization(
 
 async def get_organizations(
     session: AsyncSession,
-) -> list[models.Organization]:
+) -> Sequence[models.Organization]:
     stmt = select(models.Organization).options(
         joinedload(models.Organization.building),
         selectinload(models.Organization.activities),
@@ -44,7 +43,7 @@ async def get_organizations(
 async def get_organizations_by_activity_id(
     session: AsyncSession,
     activity_id: int,
-) -> list[models.Organization]:
+) -> Sequence[models.Organization]:
     activity_ids = await get_child_activities(session, activity_id=activity_id)
 
     stmt = (
@@ -63,7 +62,7 @@ async def get_organizations_by_activity_id(
 async def get_organizations_by_activity_name(
     session: AsyncSession,
     activity_name: str,
-) -> list[models.Organization]:
+) -> Sequence[models.Organization]:
     activity_ids = await get_child_activities(session, activity_name=activity_name)
 
     stmt = (
@@ -85,7 +84,7 @@ async def get_organizations_in_rectangle(
     lat_max: float,
     lng_min: float,
     lng_max: float,
-) -> list[models.Organization]:
+) -> Sequence[models.Organization]:
     stmt = (
         select(models.Organization)
         .join(models.Organization.building)
@@ -107,7 +106,7 @@ async def get_organizations_in_rectangle(
 async def search_organizations(
     session: AsyncSession,
     search_params: schemas.OrganizationSearchRequest,
-) -> list[models.Organization]:
+) -> Sequence[models.Organization]:
     stmt = select(models.Organization).options(
         joinedload(models.Organization.building),
         selectinload(models.Organization.activities),

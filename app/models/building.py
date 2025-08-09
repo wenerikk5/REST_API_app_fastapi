@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 class Building(IntIdPkMixin, Base):
-    address: Mapped[str] = mapped_column()
+    address: Mapped[str]
     latitude: Mapped[float] = mapped_column(index=True)
     longitude: Mapped[float] = mapped_column(index=True)
 
