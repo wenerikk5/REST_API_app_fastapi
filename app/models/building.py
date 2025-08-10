@@ -17,3 +17,6 @@ class Building(IntIdPkMixin, Base):
         "Organization",
         back_populates="building",
     )
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__} id:{self.id} ({self.address!r})"

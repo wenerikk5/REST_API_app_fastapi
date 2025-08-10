@@ -27,3 +27,6 @@ class Activity(IntIdPkMixin, Base):
     organizations: Mapped[list["Organization"]] = relationship(
         secondary=organization_activity_rel_table, back_populates="activities"
     )
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__} id:{self.id} ({self.name!r})"

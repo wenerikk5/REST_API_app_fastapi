@@ -107,11 +107,6 @@ async def search_organizations(
     session: AsyncSession,
     search_params: schemas.OrganizationSearchRequest,
 ) -> Sequence[models.Organization]:
-    stmt = select(models.Organization).options(
-        joinedload(models.Organization.building),
-        selectinload(models.Organization.activities),
-    )
-
     if search_params.name:
         stmt = (
             select(models.Organization)

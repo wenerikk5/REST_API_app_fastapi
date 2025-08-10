@@ -22,3 +22,6 @@ class Organization(IntIdPkMixin, Base):
         secondary=organization_activity_rel_table,
         back_populates="organizations",
     )
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__} id:{self.id} ({self.name!r})"

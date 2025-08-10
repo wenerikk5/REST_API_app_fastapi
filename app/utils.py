@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from sqlalchemy.exc import IntegrityError
 
 from app import models
@@ -11,7 +11,7 @@ from app import models
 _logger = logging.getLogger(__name__)
 
 
-async def seed_test_data(session_factory: AsyncSession):
+async def seed_test_data(session_factory: async_sessionmaker[AsyncSession]) -> None:
     async with session_factory() as db:
         try:
             # Check if data already exists

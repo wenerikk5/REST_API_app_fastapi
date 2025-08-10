@@ -33,7 +33,7 @@ app = FastAPI(
     default_response_class=ORJSONResponse,
     lifespan=lifespan,
     docs_url="/docs",
-    redoc_url=False,
+    redoc_url=None,
     swagger_ui_parameters={
         "defaultModelsExpandDepth": -1,
         "persistAuthorization": True,

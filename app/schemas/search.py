@@ -21,7 +21,7 @@ class OrganizationSearchRequest(BaseModel):
     lng: float | None = Field(None, ge=-180, le=180, description="Долгота")
     radius: float | None = Field(None, gt=0, description="Радиус поиска в км")
 
-    # search in rectangle sector
+    # search in the rectangle sector
     min_lat: float | None = Field(None, ge=-90, le=90, description="Минимальная широта")
     max_lat: float | None = Field(
         None, ge=-90, le=90, description="Максимальная широта"
@@ -105,7 +105,7 @@ class OrganizationSearchRequest(BaseModel):
 
     @field_validator("max_lat")
     @classmethod
-    def validate_lat_range(cls, v, info):
+    def validate_lat_range(cls, v, info) -> float | None:
         if (
             v is not None
             and info.data.get("min_lat") is not None
@@ -116,7 +116,7 @@ class OrganizationSearchRequest(BaseModel):
 
     @field_validator("max_lng")
     @classmethod
-    def validate_lng_range(cls, v, info):
+    def validate_lng_range(cls, v, info) -> float | None:
         if (
             v is not None
             and info.data.get("min_lng") is not None
