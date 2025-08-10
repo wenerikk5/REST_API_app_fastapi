@@ -1,14 +1,11 @@
 import logging
-from asyncio import current_task
 from typing import AsyncGenerator
-from contextlib import asynccontextmanager
 
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
     create_async_engine,
     async_sessionmaker,
-    async_scoped_session,
 )
 
 from app.core.config import settings
@@ -46,18 +43,6 @@ class DatabaseHelper:
     async def get_session(self) -> AsyncGenerator[AsyncSession, None]:
         async with self.session_factory() as session:
             yield session
-
-    @asynccontextmanager
-    async def get_scoped_session(self):
-        scoped_factory = async_scoped_session(
-            session_factory=self.session_factory,
-            scopefunc=current_task,
-        )
-        try:
-            async with scoped_factory() as session:
-                yield session
-        finally:
-            await scoped_factory.remove()
 
 
 db_helper = DatabaseHelper(
