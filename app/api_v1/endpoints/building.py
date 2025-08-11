@@ -21,7 +21,7 @@ async def get_buildings(
     db: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ):
     """
-    Получение списка всех зданий с их организациями
+    Получение списка всех зданий с их организациями.
     """
     buildings = await crud.list_buildings(db)
     return buildings
@@ -36,7 +36,7 @@ async def get_organizations_in_building(
     db: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ):
     """
-    Получение списка организаций, находящихся в здании по его ID
+    Получение списка организаций, находящихся в здании с заданным ID.
     """
     building = await crud.get_building(db, building_id)
     if building is None:

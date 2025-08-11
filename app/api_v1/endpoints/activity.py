@@ -18,7 +18,7 @@ async def get_activities(
     db: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ):
     """
-    Получение списка всех видов деятельности, включая вложения
+    Получение списка всех видов деятельности, включая подвиды.
     """
     activities = await crud.list_activities(db)
     return activities

@@ -18,7 +18,7 @@ async def get_organizations(
     db: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ):
     """
-    Получение списка всех организаций с их зданиями и видами деятельности
+    Получение списка всех организаций с их зданиями и видами деятельности.
     """
     organizations = await crud.get_organizations(db)
     return organizations
@@ -30,7 +30,7 @@ async def get_organization(
     db: Annotated[AsyncSession, Depends(db_helper.get_session)],
 ):
     """
-    Получение информации об организации по ID
+    Получение информации об организации по ID.
     """
     organization = await crud.get_organization(db, organization_id)
     if organization is None:
