@@ -8,6 +8,7 @@ from fastapi.responses import ORJSONResponse
 from app.core.config import settings
 from app.api_v1.routers import main_router
 from app.models.db_helper import db_helper
+from app.common.dependencies import AuthorizationRequired
 
 from .utils import seed_test_data
 
@@ -43,14 +44,8 @@ app = FastAPI(
     },
 )
 
-
-async def get_api_key(
-    x_api_key: Annotated[str, Header(..., alias="X-API-Key")],
-) -> None:
-    if x_api_key != settings.api_key:
-        raise HTTPException(status_code=403, detail="Invalid API Key")
-
-
 app.include_router(
-    main_router, prefix=settings.api_v1_str, dependencies=[Depends(get_api_key)]
+    main_router,
+    prefix=settings.api_v1_str,
+    dependencies=[Depends(AuthorizationRequired())],
 )
