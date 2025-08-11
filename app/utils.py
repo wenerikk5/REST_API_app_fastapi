@@ -32,7 +32,11 @@ async def seed_test_data(session_factory: async_sessionmaker[AsyncSession]) -> N
 
             for activity_data in test_data["activities"]:
                 parent = activity_records.get(activity_data["parent_id"])
-                activity = models.Activity(name=activity_data["name"], parent=parent)
+                activity = models.Activity(
+                    name=activity_data["name"],
+                    parent=parent,
+                    level=activity_data["level"]
+                )
                 db.add(activity)
                 await db.flush()
                 activity_records[activity_data["id"]] = activity

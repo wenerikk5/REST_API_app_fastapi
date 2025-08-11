@@ -1,8 +1,8 @@
 __all__ = (
     "db_helper",
     "Base",
-    "Building",
     "Activity",
+    "Building",
     "Organization",
     "organization_activity_rel_table",
 )

@@ -4,6 +4,7 @@ from pydantic import BaseModel, ConfigDict
 class ActivityBase(BaseModel):
     name: str
     parent_id: int | None
+    level: int | None
 
 
 class ActivityCreate(ActivityBase): ...
@@ -15,6 +16,7 @@ class ActivityRead(ActivityBase):
     )
 
     id: int
+    level: int
 
 
 class ActivityReadFull(ActivityBase):
@@ -23,5 +25,6 @@ class ActivityReadFull(ActivityBase):
     )
 
     id: int
+    level: int
     parent: "ActivityRead | None"
     children: list["ActivityRead"]

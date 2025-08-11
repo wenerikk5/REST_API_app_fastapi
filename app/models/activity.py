@@ -1,5 +1,5 @@
 from typing import TYPE_CHECKING
-from sqlalchemy import Integer, ForeignKey
+from sqlalchemy import Integer, ForeignKey, CheckConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
@@ -17,6 +17,7 @@ class Activity(IntIdPkMixin, Base):
     parent_id: Mapped[int | None] = mapped_column(
         Integer, ForeignKey("activities.id"), nullable=True
     )
+    level: Mapped[int] = mapped_column(default=1, server_default="1")
 
     parent: Mapped["Activity | None"] = relationship(
         "Activity", back_populates="children", remote_side="Activity.id"
@@ -26,6 +27,10 @@ class Activity(IntIdPkMixin, Base):
     )
     organizations: Mapped[list["Organization"]] = relationship(
         secondary=organization_activity_rel_table, back_populates="activities"
+    )
+
+    __table_args__ = (
+        CheckConstraint('level <=3', name='level_check'),
     )
 
     def __repr__(self) -> str:
